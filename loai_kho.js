@@ -5,7 +5,8 @@ fixture `Loai Kho`
     .skipJsErrors(); // <----- Khác ở chỗ này
 
 // Thêm Loại kho
-test('Case_AU_001', async t => {
+test('Case_AU_001', async t => {    
+    
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"

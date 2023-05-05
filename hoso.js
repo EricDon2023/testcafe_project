@@ -2,6 +2,7 @@ import { Selector } from 'testcafe';
 fixture `Ho So`
     .page `https://beta.jccomputing.sunny.net.vn/ecommerce-admin/login`
     .skipJsErrors(); // <----- Khác ở chỗ này
+    
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"

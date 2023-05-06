@@ -55,6 +55,7 @@ test('Case_AU_004', async t => {
         .wait(2000)
         .click(button_savess)
         .expect(Selector(thongbao).innerText).eql(success_thongbao)
+        .wait(3000)
 })
 
 //Thêm Cơ sở- Tổ chức đã tồn tại trong danh sách
@@ -177,8 +178,8 @@ test('Case_AU_007', async t => {
     const button_update=".rst__row.rst__rowSearchMatch .rst__toolbarButton > div > button:nth-of-type(1)  .innos-ui-button-content > span"
     const button_update_modal=".innos-ui-modal-footer .innos-ui-button-medium:nth-of-type(1) .innos-ui-button-inner"
     const button_save_modal=".innos-ui-modal-footer .innos-ui-button-medium:nth-of-type(2) .innos-ui-button-inner"
-    const new_ma= "CSBN"
-    const new_ten= "External facility"
+    const new_ma= "cstc_test"
+    const new_ten= "Test CSTC"
     const form_ma="input#node_form_code"
     const form_ten="input#node_form_name"
     const thongbao=".innos-ui-message-toast-notice-message"

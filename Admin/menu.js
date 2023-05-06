@@ -5,15 +5,75 @@ fixture `Menu`
     .skipJsErrors(); // <----- Khác ở chỗ này
 
 
-// "Thêm menu chưa tồn tại trong danh sách (không trùng mã + tên)"
-test('Case_AU_009', async t => {
+// Menu - Add 
+test('AU_009', async t => {
+    const username= "qc-jcecom"
+    const passwords= "147258369"
+    const form_user= "input#username"
+    const form_pass= "input#password"
+    const button_login= ".innos-ui-button-inner"
+    const menu_manage_user= ".innos-ui-navigation-list-submenu-placement-bottomLeft [role='menuitem']:nth-of-type(3) .innos-ui-navigation-list-item-text"
+    const menu_setting= "li:nth-of-type(18) > div[role='button'] > .innos-ui-navigation-list-submenu-text"
+    await t
+        .maximizeWindow()
+        .typeText(form_user, username)
+        .typeText(form_pass, passwords)
+        .click(button_login)
+        .click(menu_setting)
+        .click(menu_manage_user)
+    const List_Menu=[
+        {key:'Quote',value:'Quote'},
+        {key:'Order',value:'Order'},
+        {key:'Catalog',value:'Catalog'},
+    ]
+    const form_mamenu= "input#navigation_basic_form_code"
+    const form_tenmenu= "input#navigation_basic_form_name"
+    const button_save= "div[role='document'] .innos-ui-button.innos-ui-button-default.innos-ui-button-medium  .innos-ui-button-content"
+    const thongbao= ".innos-ui-message-toast-notice-message"
+    const mamenu= "test_menu"
+    const tenmenu= "Test Menu"
+    const click_menu= "li:nth-of-type(4)  .innos-ui-navigation-list-item-text > span"
+    const button_add= ".innos-ui-button-icon.innos-ui-icon.innos-ui-icon-add"
+    const filter= "[aria-label='Menu Filter Input']"
+    const link_click= "div[role='document'] div[role='grid'] > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div[role='gridcell'] > div[role='presentation'] > div[role='presentation'] > div[role='presentation'] > div:nth-of-type(2) > .ag-checkbox-input.ag-input-field-input"
+    const result_filter= "div:nth-of-type(2) > div[role='presentation'] > div[role='rowgroup'] > div[role='row'] > div:nth-of-type(2)"
+    const ma_filter= "[aria-label='Mã Filter Input']"
+    await t
+        .click(click_menu)
+        .typeText(ma_filter, mamenu)           
+        .wait(3000) 
+        const check= await Selector(result_filter).exists            
+        if(check==false){
+            await t
+            .click(button_add)
+            .typeText(form_mamenu,mamenu)
+            .typeText(form_tenmenu,tenmenu)
+            for (const {value} of List_Menu) 
+            {
+                await t
+                    .typeText(filter,value)
+                    .wait(1000)
+                    .click(link_click)
+                    .click(filter)
+                    .pressKey('ctrl+a')
+                    .pressKey('delete')
+            }
+            await t
+            .click(button_save)
+            .expect(Selector(thongbao).innerText).eql("Tạo mới thành công")
+            .wait(3000)
+        }
+    });
+    // Menu - Add trùng 
+test('AU_010', async t => {
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"
     const form_pass="input#password"
     const button_login=".innos-ui-button-inner"
-    const menu_manage_user=".innos-ui-navigation-list-submenu-placement-bottomLeft [role='menuitem']:nth-of-type(3) .innos-ui-navigation-list-item-text"
     const menu_setting="li:nth-of-type(18) > div[role='button'] > .innos-ui-navigation-list-submenu-text"
+    const menu_manage_user=".innos-ui-navigation-list-submenu-placement-bottomLeft [role='menuitem']:nth-of-type(3) .innos-ui-navigation-list-item-text"
+
     await t
         .maximizeWindow()
         .typeText(form_user,username)
@@ -23,27 +83,25 @@ test('Case_AU_009', async t => {
         .click(menu_manage_user)
     const List_Menu=[
         {key:'Quote',value:'Quote'},
-        {key:'Order',value:'Order'},
-        {key:'Catalog',value:'Catalog'},
     ]
     const form_mamenu="input#navigation_basic_form_code"
     const form_tenmenu="input#navigation_basic_form_name"
     const button_save="div[role='document'] .innos-ui-button.innos-ui-button-default.innos-ui-button-medium  .innos-ui-button-content"
     const thongbao=".innos-ui-message-toast-notice-message"
-    const success_thongbao="Tạo mới thành công"
-    const mamenu="testjcc"
-    const tenmenu="Test Jcc"
+    const mamenu="appadmin"
+    const tenmenu="appadmin"
     const click_menu="li:nth-of-type(4)  .innos-ui-navigation-list-item-text > span"
     const button_add=".innos-ui-button-icon.innos-ui-icon.innos-ui-icon-add"
     const filter="[aria-label='Menu Filter Input']"
     const link_click="div[role='document'] div[role='grid'] > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div[role='gridcell'] > div[role='presentation'] > div[role='presentation'] > div[role='presentation'] > div:nth-of-type(2) > .ag-checkbox-input.ag-input-field-input"
+
     await t
         .click(click_menu)
         .click(button_add)
-        .typeText(form_mamenu,mamenu)
-        .typeText(form_tenmenu,tenmenu)
-        for (const {value} of List_Menu) {
-        await t
+        .typeText(form_mamenu, mamenu)
+        .typeText(form_tenmenu, tenmenu)
+        for (const {value} of List_Menu){
+            await t
             .typeText(filter,value)
             .wait(1000)
             .click(link_click)
@@ -51,50 +109,15 @@ test('Case_AU_009', async t => {
             .pressKey('ctrl+a')
             .pressKey('delete')
         }
-    await t
+         await t
         .click(button_save)
-        .expect(Selector(thongbao).innerText).eql(success_thongbao)
-})  
-//Thêm menu đã tồn tại trong danh sách
-test('Case_AU_010', async t => {
-    const username="qc-jcecom"
-    const passwords="147258369"
-    const form_user="input#username"
-    const form_pass="input#password"
-    const button_login=".innos-ui-button-inner"
-    const menu_manage_user=".innos-ui-navigation-list-submenu-placement-bottomLeft [role='menuitem']:nth-of-type(3) .innos-ui-navigation-list-item-text"
-    const menu_setting="li:nth-of-type(18) > div[role='button'] > .innos-ui-navigation-list-submenu-text"
-    await t
-        .maximizeWindow()
-        .typeText(form_user,username)
-        .typeText(form_pass,passwords)
-        .click(button_login)
-        .click(menu_setting)
-        .click(menu_manage_user)
-    const form_mamenu="input#navigation_basic_form_code"
-    const form_tenmenu="input#navigation_basic_form_name"
-    const button_save="div[role='document'] .innos-ui-button.innos-ui-button-default.innos-ui-button-medium  .innos-ui-button-content"
-    const thongbao=".innos-ui-message-toast-notice-message"
-    const success_thongbao="Tạo mới thất bại"
-    const mamenu="testjcc"
-    const tenmenu="Test Jcc"
-    const click_menu="li:nth-of-type(4)  .innos-ui-navigation-list-item-text > span"
-    const button_add=".innos-ui-button-icon.innos-ui-icon.innos-ui-icon-add"
-    const filter="[aria-label='Menu Filter Input']"
-    const link_click="div[role='document'] div[role='grid'] > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div[role='gridcell'] > div[role='presentation'] > div[role='presentation'] > div[role='presentation'] > div:nth-of-type(2) > .ag-checkbox-input.ag-input-field-input"
-    await t
-        .click(click_menu)
-        .click(button_add)
-        .typeText(form_mamenu,mamenu)
-        .typeText(form_tenmenu,tenmenu)
-    await t
-        .click(button_save)
-        .expect(Selector(thongbao).innerText).eql(success_thongbao)
-})
+        .expect(Selector(thongbao).innerText).eql("Tạo mới thất bại")
+        .wait(3000)
+        }
+    );
 
-
-// Chỉnh sửa Menu 
-test('Case_AU_011', async t => {
+    // Menu - Sửa
+test('AU_011', async t => {
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"
@@ -111,7 +134,7 @@ test('Case_AU_011', async t => {
         .click(menu_manage_user)
     const click_menu="li:nth-of-type(4)  .innos-ui-navigation-list-item-text > span"
     const filter_mamenu="div:nth-of-type(2) > div:nth-of-type(1) > div > div[role='presentation'] > div:nth-of-type(2) > .ag-input-field-input.ag-text-field-input"
-    const mamenu="testjcc"
+    const mamenu="test_menu"
     const button_icon_edit=".ag-react-container [viewBox='0 0 512 512']"
     const button_edit=".innos-ui-modal-footer .innos-ui-button-medium:nth-of-type(1) .innos-ui-button-inner"
     const filter="[aria-label='Menu Filter Input']"
@@ -119,7 +142,6 @@ test('Case_AU_011', async t => {
     const button_thoat=".innos-ui-button.innos-ui-button-medium.innos-ui-button-neutral > .innos-ui-button-fill.innos-ui-button-inner.innos-ui-button-text"
     const link_click="div[role='document'] div[role='grid'] > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div[role='gridcell'] > div[role='presentation'] > div[role='presentation'] > div[role='presentation'] > div:nth-of-type(2) > .ag-checkbox-input.ag-input-field-input"
     const thongbao=".innos-ui-message-toast-notice-message"
-    const success_thongbao="Cập nhật thành công"
     const List_Menu_Add=[
         {key:'Services',value:'Services'},
     ]
@@ -153,19 +175,18 @@ test('Case_AU_011', async t => {
             .wait(2000)
             .click(link_click)
         }
-        await t
-            .click(filter)
-            .pressKey('ctrl+a')
-            .pressKey('delete')
     }
     await t
         .click(button_save_edit)
         .click(button_thoat)
-        .expect(Selector(thongbao).innerText).eql(success_thongbao)
+        .expect(Selector(thongbao).innerText).eql("Cập nhật thành công")
+        .wait(3000)
+
 
 })
-// Chỉnh sửa Menu thành mã và tên đã tồn tại trong danh sách
-test('Case_AU_012', async t => {
+
+// Sửa trùng 
+test('AU_012', async t => {
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"
@@ -182,36 +203,31 @@ test('Case_AU_012', async t => {
         .click(menu_manage_user)
     const click_menu="li:nth-of-type(4)  .innos-ui-navigation-list-item-text > span"
     const filter_mamenu="div:nth-of-type(2) > div:nth-of-type(1) > div > div[role='presentation'] > div:nth-of-type(2) > .ag-input-field-input.ag-text-field-input"
-    const mamenu="testjcc"
-    const mew_ma_menu= "MenuSale" 
-    const mew_ten_menu= "Menu Sale"
-    const form_mamenu="input#navigation_basic_form_code"
+    const mamenu="test_menu"
     const form_tenmenu="input#navigation_basic_form_name"
-    const button_icon_edit=".ag-react-container [viewBox='0 0 512 512']"
+    const tenmenu="appadmin"
+    const icon_edit=".ag-react-container [viewBox='0 0 512 512']"
     const button_edit=".innos-ui-modal-footer .innos-ui-button-medium:nth-of-type(1) .innos-ui-button-inner"
     const button_save_edit=".innos-ui-modal-footer .innos-ui-button-medium:nth-of-type(2) .innos-ui-button-inner"
-    const button_thoat=".innos-ui-button.innos-ui-button-medium.innos-ui-button-neutral > .innos-ui-button-fill.innos-ui-button-inner.innos-ui-button-text"
     const thongbao=".innos-ui-message-toast-notice-message"
-    const success_thongbao="Cập nhật thất bại"
     await t
         .click(click_menu)
-        .typeText(filter_mamenu,mamenu)
+        .typeText(filter_mamenu, mamenu)
         .wait(2000)
-        .click(button_icon_edit)
+        .click(icon_edit)
         .click(button_edit)
         .click(form_tenmenu)
         .pressKey('ctrl+a')
         .pressKey('delete')
-        .typeText(form_tenmenu,mew_ten_menu)
-    await t
+        .typeText(form_tenmenu,tenmenu)
         .click(button_save_edit)
-        .click(button_thoat)
-        .expect(Selector(thongbao).innerText).eql(success_thongbao)
-
+        .expect(Selector(thongbao).innerText).eql("Cập nhật thất bại")
+        .wait(3000)
 })
 
-//Xóa Menu
-test('Case_AU_013', async t => {
+
+//Menu - Xóa
+test('AU_013', async t => {
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"
@@ -228,20 +244,19 @@ test('Case_AU_013', async t => {
         .click(menu_manage_user)
     const click_menu="li:nth-of-type(4)  .innos-ui-navigation-list-item-text > span"
     const filter_mamenu="div:nth-of-type(2) > div:nth-of-type(1) > div > div[role='presentation'] > div:nth-of-type(2) > .ag-input-field-input.ag-text-field-input"
-    const mamenu="testjcc"
-    const button_icon_delete="[viewBox='0 0 151 512']"
-    const button_delete=".innos-ui-icon.innos-ui-icon-delete.innos-ui-standard-list-item-img-icon"
-    const button_delete_modal=".innos-ui-button-icon.innos-ui-icon.innos-ui-icon-delete"
+    const mamenu="test_jcc"
+    const icon_delete="[viewBox='0 0 151 512']"
+    const button_delete=".innos-ui-list-item-base-content"
+    const button_delete_modal=".innos-ui-confirm-button-cancel .innos-ui-button-inner"
     const thongbao=".innos-ui-message-toast-notice-message"
-    const success_thongbao="Xóa thành công"
+
     await t
         .click(click_menu)
         .typeText(filter_mamenu,mamenu)
-        .wait(2000)
-        .click(button_icon_delete)
-        .wait(1000)
+        .click(icon_delete)
         .click(button_delete)
-        .wait(1000)
         .click(button_delete_modal)
-        .expect(Selector(thongbao).innerText).eql(success_thongbao)
+        .expect(Selector(thongbao).innerText).eql("Xóa thành công")
+        .wait(3000)
+
 })

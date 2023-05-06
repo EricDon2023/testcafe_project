@@ -5,9 +5,8 @@ fixture `Menu`
     .skipJsErrors(); // <----- Khác ở chỗ này
 
 
-// "Thêm Chức Vụ chưa tồn tại trong danh sách (không trùng mã + tên)"
-
-test('Case_AU_014', async t => {
+// Chức vụ - Add
+test('AU_013', async t => {
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"
@@ -27,13 +26,13 @@ test('Case_AU_014', async t => {
     const button_add=".innos-ui-button-icon.innos-ui-icon.innos-ui-icon-add > svg"
     const form_ma_CV="input#code"
     const form_ten_CV="input#name"
-    const ma_CV="testjcc"
-    const ten_CV="Test Jcc"
+    const ma_CV="testjc"
+    const ten_CV="Test chức vụ"
     const filter="div#role-modal-main-content div[role='grid'] > div:nth-of-type(1) > div:nth-of-type(2) > div[role='rowgroup'] > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) .ag-input-field-input.ag-text-field-input"
     const checkbox="div#role-modal-main-content div[role='grid'] > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div[role='gridcell'] > div[role='presentation'] > div > div[role='presentation']  .ag-checkbox-input.ag-input-field-input"
     const button_save="div[role='document'] .innos-ui-button.innos-ui-button-default.innos-ui-button-medium > .innos-ui-button-fill.innos-ui-button-inner.innos-ui-button-text"
     const thongbao=".innos-ui-message-toast-notice-message"
-    const success_thongbao="Tạo mới thành công"
+
     const List_CV=[
         {key:'Hệ Thống',value:'Quyền Administrator'},
         {key:'Hệ Thống',value:'Cài đặt nâng cao'},
@@ -55,11 +54,12 @@ test('Case_AU_014', async t => {
         }
     await t
         .click(button_save)
-        .expect(Selector(thongbao).innerText).eql(success_thongbao)
+        .expect(Selector(thongbao).innerText).eql("Tạo mới thành công")
+        .wait(3000)
 })
-//"Thêm Chức Vụ đã tồn tại trong danh sách "
 
-test('Case_AU_015', async t => {
+// Add trùng mã
+test('AU_014', async t => {
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"
@@ -79,17 +79,14 @@ test('Case_AU_015', async t => {
     const button_add=".innos-ui-button-icon.innos-ui-icon.innos-ui-icon-add > svg"
     const form_ma_CV="input#code"
     const form_ten_CV="input#name"
-    const ma_CV="testjcc"
-    const ten_CV="Test Jcc"
+    const ma_CV="testjc"
+    const ten_CV="Thêm trùng chức vụ"
     const filter="div#role-modal-main-content div[role='grid'] > div:nth-of-type(1) > div:nth-of-type(2) > div[role='rowgroup'] > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) .ag-input-field-input.ag-text-field-input"
     const checkbox="div#role-modal-main-content div[role='grid'] > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div[role='gridcell'] > div[role='presentation'] > div > div[role='presentation']  .ag-checkbox-input.ag-input-field-input"
     const button_save="div[role='document'] .innos-ui-button.innos-ui-button-default.innos-ui-button-medium > .innos-ui-button-fill.innos-ui-button-inner.innos-ui-button-text"
     const thongbao=".innos-ui-message-toast-notice-message"
-    const success_thongbao="Tạo mới thất bại"
+
     const List_CV=[
-        {key:'Hệ Thống',value:'Quyền Administrator'},
-        {key:'Hệ Thống',value:'Cài đặt nâng cao'},
-        {key:'Hệ Thống',value:'Chỉnh sửa cài đặt'},
         {key:'Hệ Thống',value:'Quyền cơ sở'},
     ]
     await t
@@ -107,12 +104,12 @@ test('Case_AU_015', async t => {
         }
     await t
         .click(button_save)
-        .expect(Selector(thongbao).innerText).eql(success_thongbao)
+        .expect(Selector(thongbao).innerText).eql("Tạo mới thất bại")
+        .wait(3000)
 })
 
-//Chỉnh sửa Chức Vụ
-
-test('Case_AU_016', async t => {
+// Chức vụ - Edit
+test('AU_015', async t => {
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"
@@ -138,7 +135,7 @@ test('Case_AU_016', async t => {
     const button_save_edit=".innos-ui-modal-footer .innos-ui-button-medium:nth-of-type(2) .innos-ui-button-inner"
     const button_thoat=".innos-ui-button.innos-ui-button-medium.innos-ui-button-neutral > .innos-ui-button-fill.innos-ui-button-inner.innos-ui-button-text"
     const thongbao=".innos-ui-message-toast-notice-message"
-    const success_thongbao="Cập nhật thành công"
+    
     const List_CV_add=[
         {key:'Báo cáo',value:'Không thể xuất file'},
         {key:'Báo cáo',value:'Xem báo cáo'},
@@ -181,12 +178,11 @@ test('Case_AU_016', async t => {
     await t
         .click(button_save_edit)
         .click(button_thoat)
-        .expect(Selector(thongbao).innerText).eql(success_thongbao)
+        .expect(Selector(thongbao).innerText).eql("Cập nhật thành công")
 })
 
-//Chỉnh sửa Chức Vụ thành mã và tên đã tồn tại trong danh sách
-
-test('Case_AU_017', async t => {
+// Chức vụ - Edit trùng mã 
+test('AU_016', async t => {
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"
@@ -204,38 +200,27 @@ test('Case_AU_017', async t => {
         .click(menu_manage_user)
         .click(click_chucvu)
     const filter_ma_CV="div#root div[role='grid'] > div:nth-of-type(1) > div:nth-of-type(2) > div[role='rowgroup'] > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div[role='presentation'] > div:nth-of-type(2) > .ag-input-field-input.ag-text-field-input"
-    const ma_CV="testjcc1"
+    const ma_CV="testjc"
     const button_icon_edit=".ag-react-container [viewBox='0 0 512 512']"
     const button_edit_modal=".innos-ui-modal-footer .innos-ui-button-medium:nth-of-type(1) .innos-ui-button-inner"
     const button_save_edit=".innos-ui-modal-footer .innos-ui-button-medium:nth-of-type(2) .innos-ui-button-inner"
-    const button_thoat=".innos-ui-button.innos-ui-button-medium.innos-ui-button-neutral > .innos-ui-button-fill.innos-ui-button-inner.innos-ui-button-text"
     const thongbao=".innos-ui-message-toast-notice-message"
-    const success_thongbao="Cập nhật thất bại"
-    const form_ma_CV="input#code"
-    const form_ten_CV="input#name"
-    const ma_CV_new="testjcc"
-    const ten_CV_new="Test Jcc"
     await t
         .typeText(filter_ma_CV,ma_CV)
         .wait(2000)
         .click(button_icon_edit)
         .click(button_edit_modal)
-        .click(form_ma_CV)
-        .pressKey("ctrl+a")
-        .pressKey("delete")
-        .typeText(form_ma_CV,ma_CV_new)
-        .click(form_ten_CV)
-        .pressKey("ctrl+a")
-        .pressKey("delete")
-        .typeText(form_ten_CV,ten_CV_new)
+        .click("input#code")
+        .pressKey('ctrl+a')
+        .pressKey('delete')
+        .typeText("input#code","Saler")
         .click(button_save_edit)
-        .click(button_thoat)
-        .expect(Selector(thongbao).innerText).eql(success_thongbao)
+        .expect(Selector(thongbao).innerText).eql("Cập nhật thất bại")
+        .wait(3000)
 })
 
-// Xóa Chức Vụ
-
-test('Case_AU_018', async t => {
+// Chức vụ - Delete
+test('Case_003', async t => {
     const username="qc-jcecom"
     const passwords="147258369"
     const form_user="input#username"
@@ -253,12 +238,12 @@ test('Case_AU_018', async t => {
         .click(menu_manage_user)
         .click(click_chucvu)
     const filter_ma_CV="div#root div[role='grid'] > div:nth-of-type(1) > div:nth-of-type(2) > div[role='rowgroup'] > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > div > div[role='presentation'] > div:nth-of-type(2) > .ag-input-field-input.ag-text-field-input"
-    const ma_CV="testjcc"
+    const ma_CV="testjc"
     const button_icon_delete="[viewBox='0 0 151 512']"
     const button_delete=".innos-ui-icon.innos-ui-icon-delete.innos-ui-standard-list-item-img-icon"
     const button_delete_modal=".innos-ui-button.innos-ui-button-medium.innos-ui-button-negative.innos-ui-confirm-button-cancel > .innos-ui-button-fill.innos-ui-button-inner.innos-ui-button-text"
     const thongbao=".innos-ui-message-toast-notice-message"
-    const success_thongbao="Xóa thành công"
+    
     await t
         .typeText(filter_ma_CV,ma_CV)
         .wait(2000)
@@ -267,5 +252,6 @@ test('Case_AU_018', async t => {
         .click(button_delete)
         .wait(1000)
         .click(button_delete_modal)
-        .expect(Selector(thongbao).innerText).eql(success_thongbao)
+        .expect(Selector(thongbao).innerText).eql("Xóa thành công")
+        .wait(3000)
 })

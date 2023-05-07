@@ -103,7 +103,6 @@ test('AU_025', async t => {
         .click(button_login)
         .click(menu_setting)
         .click(menu_manage_user)
-    const selector_them=".innos-ui-button-fill.innos-ui-button-inner.innos-ui-button-text > .innos-ui-button-content"
     const selector_menu_tk="li:nth-of-type(1)  .innos-ui-navigation-list-item-text > span"
     await t.click(selector_menu_tk)
     const ds_tk_sua=[
@@ -134,5 +133,52 @@ test('AU_025', async t => {
         .typeText(selector_sdt,item.sdt)
         .click(selector_luu)
         .expect(Selector(thongbao).innerText).eql("Cập nhật thành công")
+    }
+})
+
+//Chỉnh sửa Tài khoản trùng tên với Tài khoản đã tồn tại trong danh sách
+test('AU_026', async t => {
+    await t
+        .maximizeWindow()
+        .typeText(form_user, username)
+        .typeText(form_pass, passwords)
+        .click(button_login)
+        .click(menu_setting)
+        .click(menu_manage_user)
+    const selector_menu_tk="li:nth-of-type(1)  .innos-ui-navigation-list-item-text > span"
+    await t.click(selector_menu_tk)
+    const ds_tk_sua=[
+        // {tk:'testauto1',mk:'22446688',email:'testauto001@gmail.com',sdt:'1122334455',hoso:'testauth'},
+        {tk:'testauto1',mk:'11335577',email:'testauto002@gmail.com',sdt:'6677889922',hoso:'testauth'}
+    ]
+    const selector_filter_username="div:nth-of-type(2) > div:nth-of-type(1) > div > div[role='presentation'] > div:nth-of-type(2) > .ag-input-field-input.ag-text-field-input"
+    const selector_button_edit=".ag-react-container [viewBox='0 0 512 512']"
+    const selector_sua=".innos-ui-modal-footer .innos-ui-button-medium:nth-of-type(3) span:nth-child(1)"
+    const selector_email="#user_form_email"
+    const selector_sdt="#user_form_phoneNumber"
+    const selector_username="#user_form_username"
+    const selector_luu=".innos-ui-modal-footer .innos-ui-button-medium:nth-of-type(4) span:nth-child(1)"
+    const thongbao=".innos-ui-message-toast-notice-message"
+    for (const item of ds_tk_sua)
+    {
+        await t
+        .typeText(selector_filter_username,item.tk)
+        .wait(2000)
+        .click(selector_button_edit)
+        .click(selector_sua)
+        .click(selector_username)
+        .pressKey('ctrl+a')
+        .pressKey('delete')
+        .typeText(selector_username,"appadmin")
+        .click(selector_email)
+        .pressKey('ctrl+a')
+        .pressKey('delete')
+        .click(selector_sdt)
+        .pressKey('ctrl+a')
+        .pressKey('delete')
+        .typeText(selector_email,item.email)
+        .typeText(selector_sdt,item.sdt)
+        .click(selector_luu)
+        .expect(Selector(thongbao).innerText).eql("Cập nhật thất bại")
     }
 })

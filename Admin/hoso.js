@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe';
 
-fixture `Menu`
+fixture `Hồ Sơ`
     .page `https://beta.jccomputing.sunny.net.vn/ecommerce-admin/login`
     .skipJsErrors(); // <----- Khác ở chỗ này
 
@@ -67,8 +67,8 @@ test('AU_019', async t => {
     const selector_them=".innos-ui-ag-grid-panel .innos-ui-button-medium:nth-of-type(1) span:nth-child(1)"
     const selector_menu_hoso="li:nth-of-type(2)  .innos-ui-navigation-list-item-text > span"
     await t.click(selector_menu_hoso).click(selector_them)
-    const ma_hoso="testjc"
-    const ten_hoso="testjc"
+    const ma_hoso="testjcc"
+    const ten_hoso="Test Hồ Sơ"
     const selector_tenhs="#file_form_name"
     const selector_mahs="#file_form_code"
     const selector_menu="[class='innos-ui-row innos-ui-grid-position-left innos-ui-row-std-ext-tablet innos-ui-grid-h-space-1 innos-ui-grid-v-space-1']:nth-of-type(2) .innos-ui-select-selector"
@@ -172,5 +172,30 @@ test('AU_021', async t => {
         .typeText(selector_tenhs,ten_hoso_moi)
         .click(selector_luu)
         .expect(Selector(thongbao).innerText).eql("Cập nhật thất bại")
+        .wait(2000)
+})
+test('AU_022', async t => {
+    await t
+        .maximizeWindow()
+        .typeText(form_user, username)
+        .typeText(form_pass, passwords)
+        .click(button_login)
+        .click(menu_setting)
+        .click(menu_manage_user)
+    const selector_menu_hoso="li:nth-of-type(2)  .innos-ui-navigation-list-item-text > span"
+    await t.click(selector_menu_hoso)
+    const ten_hoso="Test Hồ Sơ"
+    const selector_3_cham="[viewBox='0 0 151 512']"
+    const selector_xoa=".rc-virtual-list-holder-inner > div:nth-of-type(1)"
+    const selector_delete=".innos-ui-button-icon.innos-ui-icon-delete.innos-ui-icon [viewBox]"
+    const selector_filter_tenhoso="div:nth-of-type(2) > div:nth-of-type(1) > div > div[role='presentation'] > div:nth-of-type(2) > .ag-input-field-input.ag-text-field-input"
+    const thongbao=".innos-ui-message-toast-notice-message"
+    await t
+        .typeText(selector_filter_tenhoso,ten_hoso)
+        .wait(2000)
+        .click(selector_3_cham)
+        .click(selector_xoa)
+        .click(selector_delete)
+        .expect(Selector(thongbao).innerText).eql("Xóa thành công")
         .wait(2000)
 })

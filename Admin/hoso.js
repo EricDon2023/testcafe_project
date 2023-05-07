@@ -55,3 +55,46 @@ test('AU_018', async t => {
     .expect(Selector(thongbao).innerText).eql("Tạo mới thành công")
     .wait(2000)
 })
+//Thêm Hồ sơ trùng tên với hồ sơ đã tồn tại trong danh sách
+test('AU_019', async t => {
+    await t
+        .maximizeWindow()
+        .typeText(form_user, username)
+        .typeText(form_pass, passwords)
+        .click(button_login)
+        .click(menu_setting)
+        .click(menu_manage_user)
+    const selector_them=".innos-ui-ag-grid-panel .innos-ui-button-medium:nth-of-type(1) span:nth-child(1)"
+    const selector_menu_hoso="li:nth-of-type(2)  .innos-ui-navigation-list-item-text > span"
+    await t.click(selector_menu_hoso).click(selector_them)
+    const ma_hoso="testjc"
+    const ten_hoso="testjc"
+    const selector_tenhs="#file_form_name"
+    const selector_mahs="#file_form_code"
+    const selector_menu="[class='innos-ui-row innos-ui-grid-position-left innos-ui-row-std-ext-tablet innos-ui-grid-h-space-1 innos-ui-grid-v-space-1']:nth-of-type(2) .innos-ui-select-selector"
+    const selector_itemmenu="[title='test jcc'] div"
+    const selector_chucvu="[class='innos-ui-row innos-ui-grid-position-left innos-ui-row-std-ext-tablet innos-ui-grid-h-space-1 innos-ui-grid-v-space-1']:nth-of-type(3) .innos-ui-select-selector"
+    const selector_itemchucvu="[title='qc-bm'] div"
+    const selector_khoa=".innos-ui-select-allow-clear .innos-ui-select-selection-placeholder"
+    const selector_itemkhoa="[title='Test CSTC'] div"
+    const selector_cong="[class='innos-ui-row innos-ui-grid-position-left innos-ui-row-std-ext-phone innos-ui-grid-h-space-1 innos-ui-grid-v-space-1'] .innos-ui-button-default span"
+    const selector_luu=".innos-ui-modal-footer .innos-ui-button-default span:nth-child(1)"
+    const thongbao=".innos-ui-message-toast-notice-message"
+    await t
+    .typeText(selector_mahs,ma_hoso)
+    .typeText(selector_tenhs,ten_hoso)
+    .click(selector_menu)
+    .wait(2000)
+    .click(selector_itemmenu)
+    .click(selector_chucvu)
+    .wait(2000)
+    .click(selector_itemchucvu)
+    .click(selector_khoa)
+    .wait(2000)
+    .click(selector_itemkhoa)
+    .click(selector_cong)
+    .wait(2000)
+    .click(selector_luu)
+    .expect(Selector(thongbao).innerText).eql("Tạo mới thất bại")
+    .wait(2000)
+})

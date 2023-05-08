@@ -253,6 +253,7 @@ test('AU_013', async t => {
     await t
         .click(click_menu)
         .typeText(filter_mamenu,mamenu)
+        .wait(2000)
         .click(icon_delete)
         .click(button_delete)
         .click(button_delete_modal)
